@@ -1,29 +1,17 @@
 package org.company.schoolmanagementapp.interfaces.rest
 
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.ExampleObject
-import io.swagger.v3.oas.annotations.media.Schema
-import io.swagger.v3.oas.annotations.responses.ApiResponse
-import io.swagger.v3.oas.annotations.responses.ApiResponses
+import jakarta.validation.Valid
 import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateSchoolRequestDto
 import org.company.schoolmanagementapp.application.dtos.PageResponse
-import org.company.schoolmanagementapp.application.dtos.SchoolDetailsResponseDto
 import org.company.schoolmanagementapp.application.dtos.SchoolBasicResponseDto
+import org.company.schoolmanagementapp.application.dtos.SchoolDetailsResponseDto
 import org.company.schoolmanagementapp.application.services.SchoolService
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.net.URI
-import java.util.UUID
+import java.util.*
 
 @RestController
 @RequestMapping("/schools")
@@ -59,7 +47,7 @@ class SchoolController(
     )
     @PostMapping
     fun createSchool(
-        @RequestBody createSchoolRequest: CreateOrUpdateSchoolRequestDto
+        @Valid @RequestBody createSchoolRequest: CreateOrUpdateSchoolRequestDto
     ): ResponseEntity<SchoolBasicResponseDto> {
         val created = schoolService.createSchool(createSchoolRequest)
         return ResponseEntity
@@ -74,7 +62,7 @@ class SchoolController(
     @PutMapping("/{id}")
     fun updateSchool(
         @PathVariable id: UUID,
-        @RequestBody updateSchoolRequest: CreateOrUpdateSchoolRequestDto
+        @Valid @RequestBody updateSchoolRequest: CreateOrUpdateSchoolRequestDto
     ): ResponseEntity<SchoolBasicResponseDto> {
         val updated = schoolService.updateSchool(id, updateSchoolRequest)
         return ResponseEntity.ok(updated)

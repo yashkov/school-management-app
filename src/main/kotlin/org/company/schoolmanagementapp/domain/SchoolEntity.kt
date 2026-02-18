@@ -1,13 +1,7 @@
 package org.company.schoolmanagementapp.domain
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
-import jakarta.persistence.OrderBy
-import jakarta.persistence.Table
-import java.util.UUID
+import jakarta.persistence.*
+import java.util.*
 
 @Entity
 @Table(name = "schools")

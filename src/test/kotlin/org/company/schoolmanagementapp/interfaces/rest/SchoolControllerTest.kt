@@ -1,11 +1,10 @@
 package org.company.schoolmanagementapp.interfaces.rest
 
+import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateSchoolRequestDto
 import org.company.schoolmanagementapp.application.dtos.PageResponse
 import org.company.schoolmanagementapp.application.dtos.SchoolBasicResponseDto
 import org.company.schoolmanagementapp.application.services.SchoolService
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.data.domain.PageRequest
@@ -14,7 +13,10 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
-import java.util.UUID
+import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.put
+import tools.jackson.databind.ObjectMapper
+import java.util.*
 import kotlin.test.Test
 
 @WebMvcTest(SchoolController::class)
@@ -22,6 +24,9 @@ class SchoolControllerTest {
 
     @Autowired
     lateinit var mockMvc: MockMvc
+
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
 
     @MockitoBean
     lateinit var schoolService: SchoolService
@@ -53,6 +58,34 @@ class SchoolControllerTest {
             }
 
         verify(schoolService, times(1)).getSchools(null, pageable)
+    }
+
+    @Test
+    fun `POST schools should return 400 when capacity is below required minimum`() {
+        val request = CreateOrUpdateSchoolRequestDto(name = "Invalid School", capacity = 20)
+
+        mockMvc.post("/schools") {
+            contentType = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isBadRequest() }
+        }
+
+        verifyNoInteractions(schoolService)
+    }
+
+    @Test
+    fun `PUT schools should return 400 when capacity is above acceptable maximum`() {
+        val request = CreateOrUpdateSchoolRequestDto(name = "Invalid School", capacity = 5000)
+
+        mockMvc.put("/schools/${UUID.randomUUID()}") {
+            contentType = MediaType.APPLICATION_JSON
+            content = objectMapper.writeValueAsString(request)
+        }.andExpect {
+            status { isBadRequest() }
+        }
+
+        verifyNoInteractions(schoolService)
     }
 
     // etc...

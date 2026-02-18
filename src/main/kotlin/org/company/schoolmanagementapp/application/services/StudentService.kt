@@ -1,11 +1,6 @@
 package org.company.schoolmanagementapp.application.services
 
-import org.company.schoolmanagementapp.application.dtos.AssignStudentRequestDto
-import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateStudentRequestDto
-import org.company.schoolmanagementapp.application.dtos.PageResponse
-import org.company.schoolmanagementapp.application.dtos.StudentBasicResponseDto
-import org.company.schoolmanagementapp.application.dtos.StudentDetailsResponseDto
-import org.company.schoolmanagementapp.application.dtos.toPageResponse
+import org.company.schoolmanagementapp.application.dtos.*
 import org.company.schoolmanagementapp.domain.StudentEntity
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository
 import org.company.schoolmanagementapp.infrastructure.persistence.StudentRepository
@@ -13,8 +8,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
-
+import java.util.*
 
 @Service
 @Transactional(readOnly = true)
