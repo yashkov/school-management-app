@@ -8,7 +8,7 @@ import java.util.*
 class StudentEntity(
 
     @Id
-    @Column(name = "student_id", nullable = false, unique = true)
+    @Column(name = "student_id", nullable = false)
     var id: UUID = UUID.randomUUID(),
 
     @Column(nullable = false)
