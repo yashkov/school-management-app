@@ -1,5 +1,6 @@
 package org.company.schoolmanagementapp.interfaces.rest
 
+import org.company.schoolmanagementapp.application.dtos.PageResponse
 import org.company.schoolmanagementapp.application.dtos.SchoolBasicResponseDto
 import org.company.schoolmanagementapp.application.services.SchoolService
 import org.mockito.Mockito.times
@@ -7,7 +8,6 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
@@ -33,7 +33,12 @@ class SchoolControllerTest {
             SchoolBasicResponseDto(UUID.randomUUID(), "Test School 1", 5),
             SchoolBasicResponseDto(UUID.randomUUID(), "Test School 2", 5)
         )
-        val page = PageImpl(sampleSchools, pageable, sampleSchools.size.toLong())
+        val page = PageResponse(
+            content = sampleSchools,
+            page = 0,
+            size = 20,
+            totalElements = sampleSchools.size.toLong(),
+            totalPages = 1)
 
         `when`(schoolService.getSchools(null, pageable)).thenReturn(page)
 

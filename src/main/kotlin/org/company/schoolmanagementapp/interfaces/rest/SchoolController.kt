@@ -1,10 +1,10 @@
 package org.company.schoolmanagementapp.interfaces.rest
 
 import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateSchoolRequestDto
+import org.company.schoolmanagementapp.application.dtos.PageResponse
 import org.company.schoolmanagementapp.application.dtos.SchoolDetailsResponseDto
 import org.company.schoolmanagementapp.application.dtos.SchoolBasicResponseDto
 import org.company.schoolmanagementapp.application.services.SchoolService
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -29,7 +29,7 @@ class SchoolController(
     fun getSchools(
         @RequestParam("name", required = false) name: String?,
         pageable: Pageable
-    ): Page<SchoolBasicResponseDto> = schoolService.getSchools(name, pageable)
+    ): PageResponse<SchoolBasicResponseDto> = schoolService.getSchools(name, pageable)
 
     @GetMapping("/{id}")
     fun getSchoolDetails(

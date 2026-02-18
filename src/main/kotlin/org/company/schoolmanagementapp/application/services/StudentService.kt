@@ -2,12 +2,13 @@ package org.company.schoolmanagementapp.application.services
 
 import org.company.schoolmanagementapp.application.dtos.AssignStudentRequestDto
 import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateStudentRequestDto
+import org.company.schoolmanagementapp.application.dtos.PageResponse
 import org.company.schoolmanagementapp.application.dtos.StudentBasicResponseDto
 import org.company.schoolmanagementapp.application.dtos.StudentDetailsResponseDto
+import org.company.schoolmanagementapp.application.dtos.toPageResponse
 import org.company.schoolmanagementapp.domain.StudentEntity
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository
 import org.company.schoolmanagementapp.infrastructure.persistence.StudentRepository
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -21,13 +22,13 @@ class StudentService(
     val studentRepository: StudentRepository,
     val schoolRepository: SchoolRepository
 ) {
-    fun getStudents(name: String?, pageable: Pageable): Page<StudentBasicResponseDto> {
+    fun getStudents(name: String?, pageable: Pageable): PageResponse<StudentBasicResponseDto> {
         val studentsPage = if (name.isNullOrBlank()) {
             studentRepository.findAll(pageable)
         } else {
             studentRepository.findByNameContainingIgnoreCase(name, pageable)
         }
-        return studentsPage.map { StudentBasicResponseDto(it.id, it.name) }
+        return studentsPage.map { StudentBasicResponseDto(it.id, it.name) }.toPageResponse()
     }
 
     fun getStudentDetails(id: UUID): StudentDetailsResponseDto  {

@@ -1,13 +1,15 @@
 package org.company.schoolmanagementapp.integration.school
 
-import com.jayway.jsonpath.JsonPath
 import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateSchoolRequestDto
+import org.company.schoolmanagementapp.application.dtos.PageResponse
+import org.company.schoolmanagementapp.application.dtos.SchoolBasicResponseDto
 import org.company.schoolmanagementapp.integration.BaseIntegrationTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class SchoolIntegrationTest: BaseIntegrationTest() {
 
@@ -34,20 +36,33 @@ class SchoolIntegrationTest: BaseIntegrationTest() {
         }
 
         // Get the list of all schools
-        mockMvc.get("/schools")
+        val schoolsResponse = mockMvc.get("/schools")
             .andExpect {
                 status { isOk() }
-
-                jsonPath("$.content.length()") { value(2) }
-                jsonPath("$.totalElements") { value(2) }
-                jsonPath("$.totalPages") { value(1) }
-
-                jsonPath("$.content[0].name") { value("Test School A") }
-                jsonPath("$.content[0].capacity") { value(100) }
-
-                jsonPath("$.content[1].name") { value("Test School B") }
-                jsonPath("$.content[1].capacity") { value(50) }
             }
+            .andReturn()
+
+        val schoolsType = objectMapper.typeFactory.constructParametricType(
+            PageResponse::class.java,
+            SchoolBasicResponseDto::class.java
+        )
+        val schools = objectMapper.readValue<PageResponse<SchoolBasicResponseDto>>(
+            schoolsResponse.response.contentAsString,
+            schoolsType
+        )
+
+        assertEquals(2, schools.content.size)
+        assertEquals(2L, schools.totalElements)
+        assertEquals(1, schools.totalPages)
+
+        with (schools.content[0]) {
+            assertEquals("Test School A", name)
+            assertEquals(100, capacity)
+        }
+        with (schools.content[1]) {
+            assertEquals("Test School B", name)
+            assertEquals(50, capacity)
+        }
     }
 
     @Test
@@ -62,15 +77,15 @@ class SchoolIntegrationTest: BaseIntegrationTest() {
             status { isCreated() }
         }.andReturn()
 
-        val schoolId: String = JsonPath.read(
+        val createdSchool = objectMapper.readValue(
             postResponse.response.contentAsString,
-            "$.id"
+            SchoolBasicResponseDto::class.java
         )
 
         // Update school's capacity
         val putRequest = CreateOrUpdateSchoolRequestDto(name = "Test School", capacity = 50)
 
-        mockMvc.put("/schools/$schoolId") {
+        mockMvc.put("/schools/${createdSchool.id}") {
             contentType = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(putRequest)
         }.andExpect {
@@ -78,17 +93,26 @@ class SchoolIntegrationTest: BaseIntegrationTest() {
         }
 
         // Get the list of all schools with a single updated instance
-        mockMvc.get("/schools")
+        val schoolsResponse = mockMvc.get("/schools")
             .andExpect {
                 status { isOk() }
-
-                jsonPath("$.content.length()") { value(1) }
-                jsonPath("$.totalElements") { value(1) }
-                jsonPath("$.totalPages") { value(1) }
-
-                jsonPath("$.content[0].name") { value("Test School") }
-                jsonPath("$.content[0].capacity") { value(50) }
             }
+            .andReturn()
+
+        val schoolsType = objectMapper.typeFactory.constructParametricType(
+            PageResponse::class.java,
+            SchoolBasicResponseDto::class.java
+        )
+        val schools = objectMapper.readValue<PageResponse<SchoolBasicResponseDto>>(
+            schoolsResponse.response.contentAsString,
+            schoolsType
+        )
+
+        assertEquals(1, schools.content.size)
+        assertEquals(1L, schools.totalElements)
+        assertEquals(1, schools.totalPages)
+        assertEquals("Test School", schools.content[0].name)
+        assertEquals(50, schools.content[0].capacity)
     }
 
     // etc...
