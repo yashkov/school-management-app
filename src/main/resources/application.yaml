@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: school-management-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/school_management
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver

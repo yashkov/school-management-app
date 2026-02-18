@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: postgres-school-management
+    environment:
+      - 'POSTGRES_DB=school_management'
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=password'
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/var/lib/postgresql
+    networks:
+      - school-network
+
+volumes:
+  postgres:
+
+networks:
+  school-network:
+    name: school-management-network
