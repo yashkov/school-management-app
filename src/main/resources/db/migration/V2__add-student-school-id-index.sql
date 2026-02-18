@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS idx_students_school_id ON students (school_id);
