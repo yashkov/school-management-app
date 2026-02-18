@@ -42,28 +42,33 @@ class StudentServiceTest {
     fun `assignStudentToSchool does not allow to assign student once capacity is reached`() {
         val requestedSchoolId = UUID.randomUUID()
         val school = schoolRepository.save(
-            SchoolEntity(id = requestedSchoolId, name = "School", capacity = 1)
+            SchoolEntity(id = requestedSchoolId, name = "School", capacity = 50)
         )
 
-        val firstStudentId = UUID.randomUUID()
-        val secondStudentId = UUID.randomUUID()
+        // Hit minimum capacity
+        repeat(49) { index ->
+            studentRepository.save(StudentEntity(name = "Preassigned $index", school = school))
+        }
 
-        studentRepository.save(StudentEntity(id = firstStudentId, name = "John Doe"))
-        studentRepository.save(StudentEntity(id = secondStudentId, name = "Jane Doe"))
+        val lastAcceptedStudent = UUID.randomUUID()
+        val extraStudentToBeRejected = UUID.randomUUID()
+
+        studentRepository.save(StudentEntity(id = lastAcceptedStudent, name = "John Doe"))
+        studentRepository.save(StudentEntity(id = extraStudentToBeRejected, name = "Jane Doe"))
 
         val assignStudentRequest = AssignStudentRequestDto(schoolId = requestedSchoolId)
 
-        val firstAssignmentResult = service.assignStudentToSchool(firstStudentId, assignStudentRequest)
+        val firstAssignmentResult = service.assignStudentToSchool(lastAcceptedStudent, assignStudentRequest)
 
         with (firstAssignmentResult) {
-            assertEquals(firstStudentId, id)
+            assertEquals(lastAcceptedStudent, id)
             assertEquals("John Doe", name)
             assertEquals(requestedSchoolId, schoolId)
             assertEquals(school.name, schoolName)
         }
 
         val exception = assertThrows(RuntimeException::class.java) {
-            service.assignStudentToSchool(secondStudentId, assignStudentRequest)
+            service.assignStudentToSchool(extraStudentToBeRejected, assignStudentRequest)
         }
 
         assertEquals("Cannot be assigned to school, school is full", exception.message)

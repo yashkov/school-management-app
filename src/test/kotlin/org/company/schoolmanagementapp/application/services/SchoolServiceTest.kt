@@ -141,25 +141,25 @@ class SchoolServiceTest {
         val schoolId = UUID.randomUUID()
 
         val initialDbRecord = schoolRepository.save(
-            SchoolEntity(id = schoolId, name = "School", capacity = 1)
+            SchoolEntity(id = schoolId, name = "School", capacity = 100)
         )
 
         // Verify initial state
         with (initialDbRecord!!) {
             assertEquals(schoolId, id)
             assertEquals( "School", name)
-            assertEquals(1, capacity)
+            assertEquals(100, capacity)
         }
 
         // Verify response
         val response = service.updateSchool(
             schoolId,
-            CreateOrUpdateSchoolRequestDto(name = "Updated School", capacity = 2)
+            CreateOrUpdateSchoolRequestDto(name = "Updated School", capacity = 200)
         )
         with (response) {
             assertEquals(schoolId, id)
             assertEquals("Updated School", name)
-            assertEquals(2, capacity)
+            assertEquals(200, capacity)
         }
 
         // Verify database
@@ -167,7 +167,7 @@ class SchoolServiceTest {
         with (updatedDbRecord!!) {
             assertEquals(schoolId, id)
             assertEquals("Updated School", name)
-            assertEquals(2, capacity)
+            assertEquals(200, capacity)
         }
     }
 
@@ -177,7 +177,7 @@ class SchoolServiceTest {
 
         // Create school
         val school = schoolRepository.save(
-            SchoolEntity(id = schoolId, name = "School", capacity = 1)
+            SchoolEntity(id = schoolId, name = "School", capacity = 100)
         )
         assertEquals(1, schoolRepository.findAll().size)
 
@@ -198,4 +198,3 @@ class SchoolServiceTest {
 
     // etc...
 }
-
