@@ -1,6 +1,7 @@
 package org.company.schoolmanagementapp.integration
 
 import org.company.schoolmanagementapp.TestDataProvider
+import org.company.schoolmanagementapp.application.dtos.PageResponse
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,5 +36,14 @@ abstract class BaseIntegrationTest {
     @AfterEach
     fun afterEach() {
         testDataProvider.cleanDatabase()
+    }
+
+    protected fun <T : Any> readResponse(content: String, clazz: Class<T>): T {
+        return objectMapper.readValue(content, clazz)
+    }
+
+    protected fun <T : Any> readPageResponse(content: String, itemClass: Class<T>): PageResponse<T> {
+        val pageType = objectMapper.typeFactory.constructParametricType(PageResponse::class.java, itemClass)
+        return objectMapper.readValue(content, pageType)
     }
 }

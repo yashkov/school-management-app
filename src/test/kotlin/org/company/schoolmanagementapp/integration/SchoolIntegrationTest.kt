@@ -1,9 +1,7 @@
-package org.company.schoolmanagementapp.integration.school
+package org.company.schoolmanagementapp.integration
 
 import org.company.schoolmanagementapp.application.dtos.schools.CreateOrUpdateSchoolRequestDto
-import org.company.schoolmanagementapp.application.dtos.PageResponse
 import org.company.schoolmanagementapp.application.dtos.schools.SchoolBasicResponseDto
-import org.company.schoolmanagementapp.integration.BaseIntegrationTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
@@ -42,13 +40,9 @@ class SchoolIntegrationTest: BaseIntegrationTest() {
             }
             .andReturn()
 
-        val schoolsType = objectMapper.typeFactory.constructParametricType(
-            PageResponse::class.java,
-            SchoolBasicResponseDto::class.java
-        )
-        val schools = objectMapper.readValue<PageResponse<SchoolBasicResponseDto>>(
+        val schools = readPageResponse(
             schoolsResponse.response.contentAsString,
-            schoolsType
+            SchoolBasicResponseDto::class.java
         )
 
         assertEquals(2, schools.content.size)
@@ -77,7 +71,7 @@ class SchoolIntegrationTest: BaseIntegrationTest() {
             status { isCreated() }
         }.andReturn()
 
-        val createdSchool = objectMapper.readValue(
+        val createdSchool = readResponse(
             postResponse.response.contentAsString,
             SchoolBasicResponseDto::class.java
         )
@@ -99,13 +93,9 @@ class SchoolIntegrationTest: BaseIntegrationTest() {
             }
             .andReturn()
 
-        val schoolsType = objectMapper.typeFactory.constructParametricType(
-            PageResponse::class.java,
-            SchoolBasicResponseDto::class.java
-        )
-        val schools = objectMapper.readValue<PageResponse<SchoolBasicResponseDto>>(
+        val schools = readPageResponse(
             schoolsResponse.response.contentAsString,
-            schoolsType
+            SchoolBasicResponseDto::class.java
         )
 
         assertEquals(1, schools.content.size)
