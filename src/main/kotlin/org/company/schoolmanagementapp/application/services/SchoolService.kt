@@ -5,6 +5,7 @@ import org.company.schoolmanagementapp.application.dtos.schools.CreateOrUpdateSc
 import org.company.schoolmanagementapp.application.dtos.schools.SchoolBasicResponseDto
 import org.company.schoolmanagementapp.application.dtos.schools.SchoolDetailsResponseDto
 import org.company.schoolmanagementapp.application.dtos.students.StudentBasicResponseDto
+import org.company.schoolmanagementapp.application.exceptions.SchoolNotFoundException
 import org.company.schoolmanagementapp.domain.SchoolEntity
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository
 import org.company.schoolmanagementapp.infrastructure.persistence.StudentRepository
@@ -31,7 +32,7 @@ class SchoolService(
     }
 
     fun getSchoolDetails(id: UUID, name: String?, pageable: Pageable): SchoolDetailsResponseDto {
-        val schoolEntity = schoolRepository.findByIdOrNull(id) ?: throw RuntimeException("School not found")
+        val schoolEntity = schoolRepository.findByIdOrNull(id) ?: throw SchoolNotFoundException()
         val studentsPage = if (name.isNullOrBlank()) {
             studentRepository.findBySchoolId(id, pageable)
         } else {
@@ -59,7 +60,7 @@ class SchoolService(
 
     @Transactional
     fun updateSchool(id: UUID, modifySchoolRequestDto: CreateOrUpdateSchoolRequestDto): SchoolBasicResponseDto {
-        val schoolEntity = schoolRepository.findByIdOrNull(id) ?: throw RuntimeException("School not found")
+        val schoolEntity = schoolRepository.findByIdOrNull(id) ?: throw SchoolNotFoundException()
         schoolEntity.name = modifySchoolRequestDto.name
         schoolEntity.capacity = modifySchoolRequestDto.capacity
 

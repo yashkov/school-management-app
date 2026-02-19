@@ -5,6 +5,10 @@ import org.company.schoolmanagementapp.application.dtos.cases.CaseResponseDto
 import org.company.schoolmanagementapp.application.dtos.cases.CreateCaseRequestDto
 import org.company.schoolmanagementapp.application.dtos.cases.UpdateCaseRequestDto
 import org.company.schoolmanagementapp.application.dtos.students.AssignStudentRequestDto
+import org.company.schoolmanagementapp.application.exceptions.CaseNotFoundException
+import org.company.schoolmanagementapp.application.exceptions.InvalidCaseStatusTransitionException
+import org.company.schoolmanagementapp.application.exceptions.SchoolNotFoundException
+import org.company.schoolmanagementapp.application.exceptions.StudentNotFoundException
 import org.company.schoolmanagementapp.domain.CaseEntity
 import org.company.schoolmanagementapp.domain.enums.CaseStatus
 import org.company.schoolmanagementapp.infrastructure.persistence.CaseRepository
@@ -41,8 +45,8 @@ class CaseService(
 
     @Transactional
     fun createCase(createCaseRequest: CreateCaseRequestDto): CaseResponseDto {
-        val school = schoolRepository.findByIdOrNull(createCaseRequest.schoolId) ?: throw RuntimeException("School not found")
-        val student = studentRepository.findByIdOrNull(createCaseRequest.studentId) ?: throw RuntimeException("Student not found")
+        val school = schoolRepository.findByIdOrNull(createCaseRequest.schoolId) ?: throw SchoolNotFoundException()
+        val student = studentRepository.findByIdOrNull(createCaseRequest.studentId) ?: throw StudentNotFoundException()
 
         val caseEntity = caseRepository.save(
             CaseEntity(
@@ -64,10 +68,10 @@ class CaseService(
 
     @Transactional
     fun updateCase(id: UUID, updateCaseRequest: UpdateCaseRequestDto): CaseResponseDto {
-        val caseEntity = caseRepository.findByIdOrNull(id) ?: throw RuntimeException("Case not found")
+        val caseEntity = caseRepository.findByIdOrNull(id) ?: throw CaseNotFoundException()
 
         if (!caseEntity.status.getAllowedProgression().contains(updateCaseRequest.status)) {
-            throw RuntimeException("Cannot update case status, invalid transition")
+            throw InvalidCaseStatusTransitionException()
         }
 
         if (updateCaseRequest.status == CaseStatus.APPROVED) {

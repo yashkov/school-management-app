@@ -5,6 +5,9 @@ import org.company.schoolmanagementapp.application.dtos.students.AssignStudentRe
 import org.company.schoolmanagementapp.application.dtos.students.CreateOrUpdateStudentRequestDto
 import org.company.schoolmanagementapp.application.dtos.students.StudentBasicResponseDto
 import org.company.schoolmanagementapp.application.dtos.students.StudentDetailsResponseDto
+import org.company.schoolmanagementapp.application.exceptions.SchoolCapacityExceededException
+import org.company.schoolmanagementapp.application.exceptions.SchoolNotFoundException
+import org.company.schoolmanagementapp.application.exceptions.StudentNotFoundException
 import org.company.schoolmanagementapp.domain.StudentEntity
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository
 import org.company.schoolmanagementapp.infrastructure.persistence.StudentRepository
@@ -30,7 +33,7 @@ class StudentService(
     }
 
     fun getStudentDetails(id: UUID): StudentDetailsResponseDto {
-        val studentEntity = studentRepository.findByIdOrNull(id) ?: throw RuntimeException("Student not found")
+        val studentEntity = studentRepository.findByIdOrNull(id) ?: throw StudentNotFoundException()
         return StudentDetailsResponseDto(
             id = studentEntity.id,
             name = studentEntity.name,
@@ -47,7 +50,7 @@ class StudentService(
 
     @Transactional
     fun updateStudent(id: UUID, updateStudentRequest: CreateOrUpdateStudentRequestDto): StudentDetailsResponseDto {
-        val studentEntity = studentRepository.findByIdOrNull(id) ?: throw RuntimeException("Student not found")
+        val studentEntity = studentRepository.findByIdOrNull(id) ?: throw StudentNotFoundException()
         studentEntity.name = updateStudentRequest.name
 
         return StudentDetailsResponseDto(
@@ -60,12 +63,12 @@ class StudentService(
 
     @Transactional
     fun assignStudentToSchool(id: UUID, assignStudentRequest: AssignStudentRequestDto): StudentDetailsResponseDto {
-        val studentEntity = studentRepository.findByIdOrNull(id) ?: throw RuntimeException("Student not found")
+        val studentEntity = studentRepository.findByIdOrNull(id) ?: throw StudentNotFoundException()
         studentEntity.school = assignStudentRequest.schoolId?.let {
-            val schoolEntity = schoolRepository.findByIdOrNull(assignStudentRequest.schoolId) ?: throw RuntimeException("School not found")
+            val schoolEntity = schoolRepository.findByIdOrNull(assignStudentRequest.schoolId) ?: throw SchoolNotFoundException()
 
             if (schoolEntity.students.size >= schoolEntity.capacity) {
-                throw RuntimeException("Cannot be assigned to school, school is full")
+                throw SchoolCapacityExceededException()
             }
             schoolEntity
         }
