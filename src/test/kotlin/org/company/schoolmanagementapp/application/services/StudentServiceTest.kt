@@ -71,7 +71,7 @@ class StudentServiceTest {
             service.assignStudentToSchool(extraStudentToBeRejected, assignStudentRequest)
         }
 
-        assertEquals("Cannot be assigned to school, school is full", exception.message)
+        assertEquals("Cannot be assigned to school, school is at full capacity", exception.message)
     }
 
     // etc...

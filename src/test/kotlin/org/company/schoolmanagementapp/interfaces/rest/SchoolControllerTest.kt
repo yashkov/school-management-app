@@ -3,6 +3,7 @@ package org.company.schoolmanagementapp.interfaces.rest
 import org.company.schoolmanagementapp.application.dtos.schools.CreateOrUpdateSchoolRequestDto
 import org.company.schoolmanagementapp.application.dtos.PageResponse
 import org.company.schoolmanagementapp.application.dtos.schools.SchoolBasicResponseDto
+import org.company.schoolmanagementapp.application.exceptions.SchoolNotFoundException
 import org.company.schoolmanagementapp.application.services.SchoolService
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -61,31 +62,55 @@ class SchoolControllerTest {
     }
 
     @Test
-    fun `POST schools should return 400 when capacity is below required minimum`() {
+    fun `POST schools should return 422 when capacity is below required minimum`() {
         val request = CreateOrUpdateSchoolRequestDto(name = "Invalid School", capacity = 20)
 
         mockMvc.post("/schools") {
             contentType = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
         }.andExpect {
-            status { isBadRequest() }
+            status { isUnprocessableContent() }
         }
 
         verifyNoInteractions(schoolService)
     }
 
     @Test
-    fun `PUT schools should return 400 when capacity is above acceptable maximum`() {
+    fun `PUT schools should return 422 when capacity is above acceptable maximum`() {
         val request = CreateOrUpdateSchoolRequestDto(name = "Invalid School", capacity = 5000)
 
         mockMvc.put("/schools/${UUID.randomUUID()}") {
             contentType = MediaType.APPLICATION_JSON
             content = objectMapper.writeValueAsString(request)
         }.andExpect {
-            status { isBadRequest() }
+            status { isUnprocessableContent() }
         }
 
         verifyNoInteractions(schoolService)
+    }
+
+    @Test
+    fun `GET school details returns 404 when school is not found`() {
+        val id = UUID.randomUUID()
+        val pageable: Pageable = PageRequest.of(0, 20)
+        `when`(
+            schoolService.getSchoolDetails(
+                id,
+                null,
+                pageable
+            )
+        ).thenThrow(
+            SchoolNotFoundException()
+        )
+
+        mockMvc.get("/schools/$id") {
+            param("page", "0")
+            param("size", "20")
+            accept(MediaType.APPLICATION_JSON)
+        }.andExpect {
+            status { isNotFound() }
+            jsonPath("$.detail") { value("School not found") }
+        }
     }
 
     // etc...

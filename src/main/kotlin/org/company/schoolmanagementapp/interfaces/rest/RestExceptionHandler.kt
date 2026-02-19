@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 class RestExceptionHandler {
 
+    // Handling of some exemplary exceptions - most probably should be expanded
+
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handle(ex: MethodArgumentNotValidException): ProblemDetail {
         val problem = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -61,11 +63,15 @@ class RestExceptionHandler {
         } else if (rootMessage.contains("chk_school_capacity", ignoreCase = true)) {
             val problem = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 
+            // Potentially some additional logging as this should have been handled by Spring validation
+
             problem.title = "Could not persist data"
             problem.detail = "School capacity out of allowed range (50 - 2000)"
             problem
         } else {
             val problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST)
+
+            // Potentially log details for analysis - requests breaking data integrity should be preferably caught before reaching this stage
 
             problem.title = "Could not persist data"
             problem
@@ -75,6 +81,8 @@ class RestExceptionHandler {
     @ExceptionHandler(RuntimeException::class)
     fun handle(ex: RuntimeException): ProblemDetail {
         val problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+
+        // Potentially log details for analysis
 
         problem.title = "Critical error occurred"
         problem.detail = "An unexpected error occurred. Please try again later."
