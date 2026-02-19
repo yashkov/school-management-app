@@ -22,7 +22,6 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-flyway")
     implementation("org.springframework.boot:spring-boot-starter-restclient")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
@@ -33,7 +32,6 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-rest-test")
     testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
     testImplementation("org.springframework.boot:spring-boot-starter-restclient-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
