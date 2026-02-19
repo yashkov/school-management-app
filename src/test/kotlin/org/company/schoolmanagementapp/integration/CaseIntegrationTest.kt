@@ -128,4 +128,5 @@ class CaseIntegrationTest : BaseIntegrationTest() {
     }
 
     // etc...
+    // Most typical scenarios for user interaction with app should be tested in a similar fashion
 }

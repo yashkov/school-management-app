@@ -106,5 +106,5 @@ class SchoolIntegrationTest: BaseIntegrationTest() {
     }
 
     // etc...
-    // Typical user interaction with app should be tested in a similar fashion
+    // Most typical scenarios for user interaction with app should be tested in a similar fashion
 }
