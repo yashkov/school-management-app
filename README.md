@@ -13,6 +13,24 @@ Small service prepared for this assignment is referred to as school-management-a
 - `make run` to run app
 - `make compose-down` to teardown containers
 
+Alternatively to run docker image:
+```
+ make compose-up
+```
+```
+ docker build -t school-management-app:latest .
+```
+```
+  docker run --rm \
+  --name school-management-app \
+  --network school-management-network \
+  -p 8080:8080 \
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-school-management:5432/school_management \
+  -e SPRING_DATASOURCE_USERNAME=postgres \
+  -e SPRING_DATASOURCE_PASSWORD=password \
+  school-management-app:latest
+```
+
 http://localhost:8080/swagger-ui/index.html to access swagger
 ### Comments
 Requirements from the second part of the assignment have been addressed by adding a simple case flow: assuming that POST /cases endpoint is exposed to applicants, while other endpoints are exposed to school administration staff, the applicants should be able to open their case and wait for approval or rejection by an authorized employee.
