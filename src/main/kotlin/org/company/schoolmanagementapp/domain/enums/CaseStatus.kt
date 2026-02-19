@@ -7,8 +7,8 @@ enum class CaseStatus {
     fun getAllowedProgression(): List<CaseStatus> {
         return when (this) {
             PENDING -> listOf(APPROVED, REJECTED)
-            APPROVED -> emptyList()
-            REJECTED -> listOf(PENDING)
+            APPROVED -> emptyList()     // an approved case in final
+            REJECTED -> listOf(PENDING) // a rejected case can be reopened
         }
     }
 }
