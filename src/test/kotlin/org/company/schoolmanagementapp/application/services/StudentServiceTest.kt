@@ -45,7 +45,7 @@ class StudentServiceTest {
             SchoolEntity(id = requestedSchoolId, name = "School", capacity = 50)
         )
 
-        // Hit minimum capacity
+        // Hit minimum allowed capacity
         repeat(49) { index ->
             studentRepository.save(StudentEntity(name = "Preassigned $index", school = school))
         }

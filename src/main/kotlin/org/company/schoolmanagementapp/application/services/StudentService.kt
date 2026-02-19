@@ -65,7 +65,7 @@ class StudentService(
             }
             schoolEntity
         }
-            // check if it gets nullified when schoolId is null
+
         return StudentDetailsResponseDto(
             id = studentEntity.id,
             name = studentEntity.name,

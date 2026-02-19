@@ -116,6 +116,5 @@ class SchoolIntegrationTest: BaseIntegrationTest() {
     }
 
     // etc...
-    // Typical flows of user interaction with app should be preferably tested in a similar fashion
-    // and remain separated from implementation + serve as documentation of business logic
+    // Typical user interaction with app should be tested in a similar fashion
 }
