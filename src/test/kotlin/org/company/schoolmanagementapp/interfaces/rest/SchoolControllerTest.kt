@@ -1,8 +1,8 @@
 package org.company.schoolmanagementapp.interfaces.rest
 
-import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateSchoolRequestDto
+import org.company.schoolmanagementapp.application.dtos.schools.CreateOrUpdateSchoolRequestDto
 import org.company.schoolmanagementapp.application.dtos.PageResponse
-import org.company.schoolmanagementapp.application.dtos.SchoolBasicResponseDto
+import org.company.schoolmanagementapp.application.dtos.schools.SchoolBasicResponseDto
 import org.company.schoolmanagementapp.application.services.SchoolService
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired

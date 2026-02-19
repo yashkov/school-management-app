@@ -2,6 +2,10 @@ package org.company.schoolmanagementapp.interfaces.rest
 
 import io.swagger.v3.oas.annotations.Operation
 import org.company.schoolmanagementapp.application.dtos.*
+import org.company.schoolmanagementapp.application.dtos.students.AssignStudentRequestDto
+import org.company.schoolmanagementapp.application.dtos.students.CreateOrUpdateStudentRequestDto
+import org.company.schoolmanagementapp.application.dtos.students.StudentBasicResponseDto
+import org.company.schoolmanagementapp.application.dtos.students.StudentDetailsResponseDto
 import org.company.schoolmanagementapp.application.services.StudentService
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity

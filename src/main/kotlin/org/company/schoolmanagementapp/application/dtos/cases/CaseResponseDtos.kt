@@ -1,6 +1,6 @@
-package org.company.schoolmanagementapp.application.dtos
+package org.company.schoolmanagementapp.application.dtos.cases
 
-import org.company.schoolmanagementapp.domain.CaseStatus
+import org.company.schoolmanagementapp.domain.enums.CaseStatus
 import java.util.UUID
 
 data class CaseResponseDto(

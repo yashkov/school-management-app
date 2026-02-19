@@ -1,8 +1,8 @@
 package org.company.schoolmanagementapp.integration.school
 
-import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateSchoolRequestDto
+import org.company.schoolmanagementapp.application.dtos.schools.CreateOrUpdateSchoolRequestDto
 import org.company.schoolmanagementapp.application.dtos.PageResponse
-import org.company.schoolmanagementapp.application.dtos.SchoolBasicResponseDto
+import org.company.schoolmanagementapp.application.dtos.schools.SchoolBasicResponseDto
 import org.company.schoolmanagementapp.integration.BaseIntegrationTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.get

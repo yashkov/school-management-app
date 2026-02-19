@@ -1,4 +1,4 @@
-package org.company.schoolmanagementapp.application.dtos
+package org.company.schoolmanagementapp.application.dtos.students
 
 import java.util.UUID
 

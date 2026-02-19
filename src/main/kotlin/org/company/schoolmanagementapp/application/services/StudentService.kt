@@ -1,6 +1,10 @@
 package org.company.schoolmanagementapp.application.services
 
 import org.company.schoolmanagementapp.application.dtos.*
+import org.company.schoolmanagementapp.application.dtos.students.AssignStudentRequestDto
+import org.company.schoolmanagementapp.application.dtos.students.CreateOrUpdateStudentRequestDto
+import org.company.schoolmanagementapp.application.dtos.students.StudentBasicResponseDto
+import org.company.schoolmanagementapp.application.dtos.students.StudentDetailsResponseDto
 import org.company.schoolmanagementapp.domain.StudentEntity
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository
 import org.company.schoolmanagementapp.infrastructure.persistence.StudentRepository
@@ -25,7 +29,7 @@ class StudentService(
         return studentsPage.map { StudentBasicResponseDto(it.id, it.name) }.toPageResponse()
     }
 
-    fun getStudentDetails(id: UUID): StudentDetailsResponseDto  {
+    fun getStudentDetails(id: UUID): StudentDetailsResponseDto {
         val studentEntity = studentRepository.findByIdOrNull(id) ?: throw RuntimeException("Student not found")
         return StudentDetailsResponseDto(
             id = studentEntity.id,

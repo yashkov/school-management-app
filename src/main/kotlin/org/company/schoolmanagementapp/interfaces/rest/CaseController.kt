@@ -2,10 +2,10 @@ package org.company.schoolmanagementapp.interfaces.rest
 
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
-import org.company.schoolmanagementapp.application.dtos.CaseResponseDto
-import org.company.schoolmanagementapp.application.dtos.CreateCaseRequestDto
+import org.company.schoolmanagementapp.application.dtos.cases.CaseResponseDto
+import org.company.schoolmanagementapp.application.dtos.cases.CreateCaseRequestDto
 import org.company.schoolmanagementapp.application.dtos.PageResponse
-import org.company.schoolmanagementapp.application.dtos.UpdateCaseRequestDto
+import org.company.schoolmanagementapp.application.dtos.cases.UpdateCaseRequestDto
 import org.company.schoolmanagementapp.application.services.CaseService
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity

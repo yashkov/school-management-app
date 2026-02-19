@@ -1,4 +1,4 @@
-package org.company.schoolmanagementapp.application.dtos
+package org.company.schoolmanagementapp.application.dtos.schools
 
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min

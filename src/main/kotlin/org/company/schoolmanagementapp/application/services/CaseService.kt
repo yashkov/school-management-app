@@ -1,8 +1,12 @@
 package org.company.schoolmanagementapp.application.services
 
 import org.company.schoolmanagementapp.application.dtos.*
+import org.company.schoolmanagementapp.application.dtos.cases.CaseResponseDto
+import org.company.schoolmanagementapp.application.dtos.cases.CreateCaseRequestDto
+import org.company.schoolmanagementapp.application.dtos.cases.UpdateCaseRequestDto
+import org.company.schoolmanagementapp.application.dtos.students.AssignStudentRequestDto
 import org.company.schoolmanagementapp.domain.CaseEntity
-import org.company.schoolmanagementapp.domain.CaseStatus
+import org.company.schoolmanagementapp.domain.enums.CaseStatus
 import org.company.schoolmanagementapp.infrastructure.persistence.CaseRepository
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository
 import org.company.schoolmanagementapp.infrastructure.persistence.StudentRepository

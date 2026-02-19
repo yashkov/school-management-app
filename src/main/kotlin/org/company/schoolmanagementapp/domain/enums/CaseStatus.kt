@@ -1,4 +1,4 @@
-package org.company.schoolmanagementapp.domain
+package org.company.schoolmanagementapp.domain.enums
 
 enum class CaseStatus {
     PENDING, APPROVED, REJECTED;

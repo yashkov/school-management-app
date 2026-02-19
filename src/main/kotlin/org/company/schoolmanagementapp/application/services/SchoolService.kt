@@ -1,6 +1,10 @@
 package org.company.schoolmanagementapp.application.services
 
 import org.company.schoolmanagementapp.application.dtos.*
+import org.company.schoolmanagementapp.application.dtos.schools.CreateOrUpdateSchoolRequestDto
+import org.company.schoolmanagementapp.application.dtos.schools.SchoolBasicResponseDto
+import org.company.schoolmanagementapp.application.dtos.schools.SchoolDetailsResponseDto
+import org.company.schoolmanagementapp.application.dtos.students.StudentBasicResponseDto
 import org.company.schoolmanagementapp.domain.SchoolEntity
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository
 import org.company.schoolmanagementapp.infrastructure.persistence.StudentRepository

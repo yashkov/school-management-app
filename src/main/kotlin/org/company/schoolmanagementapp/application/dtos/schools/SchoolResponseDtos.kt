@@ -1,5 +1,7 @@
-package org.company.schoolmanagementapp.application.dtos
+package org.company.schoolmanagementapp.application.dtos.schools
 
+import org.company.schoolmanagementapp.application.dtos.PageResponse
+import org.company.schoolmanagementapp.application.dtos.students.StudentBasicResponseDto
 import java.util.UUID
 
 data class SchoolBasicResponseDto(

@@ -1,7 +1,7 @@
 package org.company.schoolmanagementapp.application.services
 
 import org.company.schoolmanagementapp.TestDataProvider
-import org.company.schoolmanagementapp.application.dtos.AssignStudentRequestDto
+import org.company.schoolmanagementapp.application.dtos.students.AssignStudentRequestDto
 import org.company.schoolmanagementapp.domain.SchoolEntity
 import org.company.schoolmanagementapp.domain.StudentEntity
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository

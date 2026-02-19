@@ -4,7 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.company.schoolmanagementapp.TestDataProvider
-import org.company.schoolmanagementapp.application.dtos.CreateOrUpdateSchoolRequestDto
+import org.company.schoolmanagementapp.application.dtos.schools.CreateOrUpdateSchoolRequestDto
 import org.company.schoolmanagementapp.domain.SchoolEntity
 import org.company.schoolmanagementapp.domain.StudentEntity
 import org.company.schoolmanagementapp.infrastructure.persistence.SchoolRepository
